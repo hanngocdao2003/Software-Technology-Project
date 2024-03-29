@@ -1,6 +1,15 @@
+import Header from "../../component/header/header";
+import Search from "../../component/search/search";
+import Slide from "../../component/slide/slide";
+
 function Home() {
     return ( 
-        <h1>Home</h1>
+       <div id="home">
+            <Header/>
+            <Slide>
+               <Search/>
+            </Slide>
+       </div>
      );
 }
 
