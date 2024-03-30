@@ -1,51 +1,47 @@
 import axios from "axios";
-import Cookies from "js-cookie";
+// import Cookies from "js-cookie";
 import React, { useState } from "react";
 import  {Link, useNavigate} from 'react-router-dom'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import {toastOption} from '../../utils/toast'
+import { images } from "../../source/images";
+import './login.scss'
 function Login() {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const navigate = useNavigate()
     const handleSubmit = async()=>{
         try{
-          const {data} = await axios.post('http://localhost:3005/auth/login',{
-            email,
-            password
-        })
-        if(data.status ===200){
-          console.log(data.accessToken.accessToken);
-          Cookies.set('jwt', JSON.stringify(data.accessToken.accessToken), {
-            expires: 1
-          })
-          Cookies.set('user',JSON.stringify( data.user), {
-            expires: 1
-          })
-          navigate('/')
-        }
-        else{
-          toast('Vui lòng nhập đúng email và mật khẩu',{
-            position: "bottom-right"
-          })
-        }
+            const {data} = await axios.post('http://localhost:5000/auth/login',{
+                email,
+                password
+            })
+            if(data.status === 200){
+                navigate('/')
+            }
+            else {
+                toast.error(data.message, toastOption)
+            }
         }
         catch(e){
-          toast('Vui lòng nhập đúng email và mật khẩu',{
-            position: 'bottom-right',
-          })
+          toast.error('Vui lòng nhập đúng email và mật khẩu',toastOption)
         }
         
     }
     
     return ( 
-        <div className=" flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
+        <div id="login" className=" flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
             <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-            <img
-                className="mx-auto h-10 w-auto"
-                src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-                alt="Your Company"
-            />
+            <div className="logo flex justify-center items-center h-14">
+              <img
+                  className="mx-auto h-10 w-auto"
+                  src={images.logo}
+                  alt="Your Company"
+  
+                  
+              />
+            </div>
             <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
             Đăng nhập
             </h2>

@@ -13,7 +13,7 @@ function Search() {
     const [date, setDate] = useState('')
     const [ticketCount, setTicketCount] = useState(1)
     const [province , setProvince] = useState([])
-
+    const [historySearch, setHistorySearch] = useState([])
     // Ref
     const provinceRef = useRef()
 
@@ -30,6 +30,8 @@ function Search() {
     }
     useEffect(()=>{
         processingProvince()
+        // 
+        setHistorySearch(JSON.parse(localStorage.getItem('history-search')))
     },[])
     useOnClickOutside(provinceRef,()=>{
         if(showTo){
@@ -42,10 +44,23 @@ function Search() {
     const checkValueValidate = ()=>{
         return !(dest.length ===0 || to.length===0);
     }
+    console.log(historySearch);
     const handleSearch = ()=>{
         if(checkValueValidate()){
             navigate(`/search?to=${to}&dest=${dest}&date=${date}&ticket=${ticketCount}`)
         }
+        if(historySearch === null){
+            localStorage.setItem('history-search',JSON.stringify([{to ,dest,date}]))
+        }
+        else if(historySearch.length >5){
+            historySearch.shift()
+            localStorage.setItem('history-search',JSON.stringify(historySearch))
+        }
+        else{
+            historySearch.push({to,dest ,date})
+            localStorage.setItem('history-search',JSON.stringify(historySearch))
+        }
+
     }
     return ( 
         <div id="search" className="bg-white px-6 pt-2 pb-4 mt-14">
@@ -119,10 +134,20 @@ function Search() {
             <div className="search-recent text-black">
                 <p className="recent-title text font-semibold">Tìm kiếm gần đây</p>
                 <div className="location flex gap-3">
-                    <div className="location-item bg-slate-300">
-                        <div className="name">Quảng Ngãi - Hồ Chí Minh</div>
-                        <div className="date">25/4/2024</div>
-                    </div>
+                    {
+                        historySearch?.length ===0 ? (<div>Không có tìm kiếm nào gần đây</div>) :
+                        historySearch?.map((item, index)=>{
+                            return (
+                                <div key={index} 
+                                    className="location-item bg-slate-300 cursor-pointer" 
+                                    onClick={()=>navigate(`search?to=${item.to}&dest=${item.dest}&date=${item.date}`)}
+                                >
+                                    <div className="name">{item.to} - {item.dest}</div>
+                                    <div className="date">{item.date}</div>
+                                </div>
+                            )
+                        })
+                    }
                 </div>
             </div>
             <button className="search-btn text-center px-1 py-2 cursor-pointer" onClick={handleSearch}>Tìm kiếm</button>

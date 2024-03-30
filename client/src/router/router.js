@@ -2,6 +2,7 @@ import { Component } from "react";
 import Login from "../page/Login/login";
 import Register from "../page/Register/register";
 import Home from "../page/Home/home";
+import SearchPage from "../page/SearchPage/searchPage";
 
 export const routers = {
     publicRouter : [
@@ -15,6 +16,9 @@ export const routers = {
         },{
             path: '/',
             component: Home,
+        },{
+            path:'/search',
+            component: SearchPage
         }
     ],
 

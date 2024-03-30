@@ -1,50 +1,60 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import './register.scss'
+import { images } from "../../source/images";
+import axios from "axios";
+import { toastOption } from "../../utils/toast";
 function Register() {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [confirmPassword, setConfirmPassword] = useState('')
 
+
     const checkValidation = ()=>{
+        console.log('check');
         if(email.length == 0 ){
-            toast('Vui lòng nhập đúng email',{
-                type: 'warning',
-                position: 'bottom-right'
-            })
+            toast.error('Vui lòng nhập đúng email',toastOption)
             return false;
         }
         if(password <= 5){
-            toast('Vui lòng nhập mật khẩu tối thiểu 6 kí tự',{
-                type: 'warning',
-                position: 'bottom-right'
-            })
+            toast.error('Vui lòng nhập mật khẩu tối thiểu 6 kí tự',toastOption)
             return false
         }
         if(password !== confirmPassword){
-            toast('Mật khẩu xác nhận không không khớp',{
-                type: 'warning',
-                position: 'bottom-right'
-            })
+            toast.error('Mật khẩu xác nhận không không khớp',toastOption)
             return false;
         }
         return true;
     }
-    const handleSubmit = ()=>{
+    const navigate = useNavigate()
+    const handleSubmit = async()=>{
         if(checkValidation()){
-            // Nhúng BE ở đây
+            try {
+                const  {data} = await axios.post('http://localhost:5000/auth/register',{
+                    email,
+                    password
+                })
+                if(data.accessToken){
+                    navigate('/login')
+                }
+            } catch (error) {
+                alert(error)
+            }
         }
     }
 
     return ( 
-        <div className=" flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
+        <div id="register" className=" flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
             <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-            <img
-                className="mx-auto h-10 w-auto"
-                src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-                alt="Your Company"
-            />
+            <div className="logo flex justify-center items-center h-14">
+                <img
+                    className="mx-auto h-10 w-auto"
+                    src={images.logo}
+                    alt="Your Company"
+                />
+            </div>
             <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
             Đăng kí
             </h2>

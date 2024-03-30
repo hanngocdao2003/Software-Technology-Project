@@ -1,5 +1,6 @@
 import {BrowserRouter, Routes, Route} from 'react-router-dom'
 import { routers } from './router/router';
+import { ToastContainer } from 'react-toastify';
 function App() {
   return (
     <BrowserRouter>
@@ -11,6 +12,7 @@ function App() {
           })
         }
       </Routes>
+      <ToastContainer/>
     </BrowserRouter>
   );
 }
