@@ -1,16 +1,15 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Post, UsePipes, ValidationPipe } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import {JwtService} from '@nestjs/jwt'
 import { ConfigService } from '@nestjs/config';
-import { AuthDTO } from './dto.auth.dto';
+import { AuthDTO } from './dto'
 @Controller('auth')
 export class AuthController {
     constructor(
         private authService : AuthService,
-        private jwtService : JwtService,
-        private configService : ConfigService
     ){}
     @Post('register')
+    @UsePipes(ValidationPipe)
     async register(@Body() authDTO: AuthDTO  ){
         console.log(authDTO);
         
@@ -18,6 +17,7 @@ export class AuthController {
         
     }
     @Post('login')
+    @UsePipes(ValidationPipe)
     async login(@Body() authDTO: AuthDTO){
         return this.authService.login(authDTO)
     }

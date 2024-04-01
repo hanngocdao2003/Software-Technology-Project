@@ -1,7 +1,7 @@
 import { ForbiddenException, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { PrismaService } from '../prisma/prisma.service';
-import { AuthDTO } from './dto.auth.dto';
+import { AuthDTO } from './dto';
 import * as argon from 'argon2'
 import { JwtService } from '@nestjs/jwt';
 @Injectable()
@@ -46,7 +46,7 @@ export class AuthService {
 
         }
         delete user.hashedPassword
-        const accessToken =  this.signJwtString(user.id, user.email, user.isAdmin)
+        const accessToken = await this.signJwtString(user.id, user.email, user.isAdmin)
         return {
             status: 200,
             user,
