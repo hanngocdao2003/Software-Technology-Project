@@ -11,6 +11,11 @@ import { join } from 'path';
 import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter'
 import { TradeModule } from './trade/trade.module';
 import { UserModule } from './user/user.module';
+import { VehicleModule } from './vehicle/vehicle.module';
+import { TicketModule } from './ticket/ticket.module';
+import { SearchModule } from './search/search.module';
+import { BookTicketModule } from './book-ticket/book-ticket.module';
+import { VehicleAvailableModule } from './vehicle-available/vehicle-available.module';
 
 @Module({
   imports: [ProvinceModule, 
@@ -21,6 +26,11 @@ import { UserModule } from './user/user.module';
     }),
     TradeModule,
     UserModule,
+    VehicleModule,
+    TicketModule,
+    SearchModule,
+    BookTicketModule,
+    VehicleAvailableModule,
     // MailerModule.forRootAsync({
     //   imports: [ConfigModule],
     //   useFactory : async (config : ConfigService)=>({

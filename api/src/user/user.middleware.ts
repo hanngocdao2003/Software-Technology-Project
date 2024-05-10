@@ -22,7 +22,7 @@ export class AdminMiddleware  implements NestMiddleware {
       if(user.isAdmin){
         return next()
       }else{
-        return res.status(400).json({status: 403 , msg : 'Bạn không có quyền try cập'})
+        return res.status(400).json({status: 403 , msg : 'Bạn không có quyền truy cập'})
       }
     } catch (error) {
       if(error instanceof TokenExpiredError){

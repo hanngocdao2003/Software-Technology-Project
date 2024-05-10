@@ -362,6 +362,10 @@ export class ProvinceController {
                 "region": "Đồng bằng Sông Cửu Long"
               },
               {
+                "name":"TP.Hồ Chí Minh",
+                "population" :12345
+              },
+              {
                 "name": "Tuyên Quang",
                 "population": 807000,
                 "area_km2": 5867.3,

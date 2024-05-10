@@ -1,0 +1,6 @@
+.vehicle-item .head-vehicle .type-and-price .price {
+  color: var(--orangen);
+}
+.vehicle-item .footer-vehicle .btn {
+  background-color: var(--primary-color);
+}/*# sourceMappingURL=vehicle.css.map */

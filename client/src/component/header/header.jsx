@@ -3,6 +3,7 @@ import {Link} from 'react-router-dom'
 import './header.scss'
 import { useState } from 'react';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import { faUser } from '@fortawesome/free-solid-svg-icons';
 function Header() {
     const [currentUser, setCurrentUser]= useState(undefined)
     const menu = [
@@ -34,9 +35,9 @@ function Header() {
                         })
                     }
                 </ul>
-                <div className="user ml-5 text-white">
-                    <div className="icon">
-                        <FontAwesomeIcon icon="fa-solid fa-user" />
+                <div className="user ml-5 text-white flex">
+                    <div className="icon mr-4">
+                        <FontAwesomeIcon icon={faUser} />
                     </div>
                     <div className="username">
                         {currentUser === undefined ? <Link to={'/login'}>Đăng nhập/ Đăng kí</Link> : currentUser}
