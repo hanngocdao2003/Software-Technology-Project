@@ -14,7 +14,8 @@ import { TicketModule } from 'src/ticket/ticket.module';
     PrismaModule,
      JwtModule.register({}),
      TicketModule
-    ]
+    ],
+    exports :[VehicleAvailableService]
 })
 export class VehicleAvailableModule implements NestModule{
   configure(consumer: MiddlewareConsumer) {

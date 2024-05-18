@@ -10,7 +10,7 @@ function PopupWrapper({onClose, children}) {
                     <FontAwesomeIcon icon={faClose}/>
                 </div>
             </div>
-            <div className="body-popup flex justify-center items-center flex-1 flex-col px-5">
+            <div className="body-popup flex justify-center items-center flex-1  px-5">
                 {children}
             </div>
         </div>

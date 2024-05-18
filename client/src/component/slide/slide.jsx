@@ -49,7 +49,7 @@ function Slide({children}) {
                     <Link className="link mt-9" to={`to=${slides[bus]?.to}&dest=${slides[bus]?.des}`}>Đặt vé ngay</Link>
                 </div>
             </div>
-            <div className="text-white">{children}</div>
+            <div className = 'w-full md:px-10'>{children}</div>
         </div>
      );
 }

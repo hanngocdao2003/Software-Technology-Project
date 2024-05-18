@@ -5,6 +5,9 @@ import { useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from 'axios'
 import VehicleItem from "../../component/vehicleItem/vehicleItem";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import {toastOption} from '../../utils/toast'
 function SearchPage() {
     const location = useLocation()
     const [vehicles , setVehicles] = useState([])
@@ -14,9 +17,13 @@ function SearchPage() {
     const [ticketCount, setTicketCount] = useState('')
     // const [results , setResults] = useState()
     const searchResults = async (to,dest,date,ticketCount)=>{
-        const {data}  = await axios.get(`http://localhost:5000/search?start=${to}&dest=${dest}&date=${date}`)
-        console.log(data);
-        setVehicles(data)
+        try {
+            const {data}  = await axios.get(`http://localhost:5000/search?start=${to}&dest=${dest}&date=${date}`)
+            console.log(data);
+            setVehicles(data)
+        } catch (error) {
+            
+        }
     }
     useEffect(()=>{
         const queryParams =new URLSearchParams(location.search)
@@ -33,7 +40,7 @@ function SearchPage() {
             <Header/>
             <section className="over-view flex justify-center items-center flex-col gap-10">
                 <div className="detail text-center">
-                    <h1 className="text-white font-bold text-3xl">Quảng Ngãi - TP.Hồ Chí Minh ({vehicles?.length}) </h1>
+                    <h1 className="text-white font-bold text-3xl">{to} - {dest} ({vehicles?.length}) </h1>
                     <button className="mt-8 btn-more px-8 py-2 text-white text-sm hover:bg-slate-600 transition-all"><Link className="h-full w-full block" to={'#detail-bus'}>Xem thêm</Link></button>
                 </div>
                 <div className="sort text-white flex rounded-2xl px-6 py-10 lg:w-5/6 items-center flex-wrap">
@@ -63,11 +70,17 @@ function SearchPage() {
            <div className="w-full flex justify-center bg-black">
                 <div className="result  flex flex-wrap lg:w-5/6 py-20">
                     {
-                        vehicles.map((vehicle, index)=>{
-                            return (
-                                <VehicleItem vehicle={vehicle} key={index}/>
-                            )
-                        })
+                        vehicles?.length === 0 ? 
+                        <div>Không có chuyến xe nào phù hợp</div>
+                        :
+                       
+                           vehicles?.map((vehicle, index)=>{
+                                return (
+                                    <VehicleItem vehicle={vehicle} key={index}/>
+                                )
+                            })
+                       
+                        
                     }
                 </div>
            </div>

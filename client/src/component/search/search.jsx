@@ -63,7 +63,7 @@ function Search() {
 
     }
     return ( 
-        <div className="search bg-white px-6 pt-2 pb-4 mt-14">
+        <div className="search bg-white px-6 pt-2 pb-4 mt-14 w-full">
             <div className="instruct flex justify-end items-center">
                 <p>
                     <Link to='/instruct-ticket'>Hướng dẫn mua vé</Link>

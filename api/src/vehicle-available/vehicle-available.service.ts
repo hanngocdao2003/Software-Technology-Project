@@ -75,7 +75,7 @@ export class VehicleAvailableService {
         })).numChair
         let ticketDTO : TicketDTO
         if(numberChair <=10){
-            for(let i= 0 ; i< numberChair; i++){
+            for(let i= 1 ; i<= numberChair; i++){
                  ticketDTO= {
                     chair: `A${i}`,
                     name : `Ghế A${i}`,

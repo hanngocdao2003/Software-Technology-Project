@@ -7,10 +7,12 @@ import 'react-toastify/dist/ReactToastify.css';
 import {toastOption} from '../../utils/toast'
 import { images } from "../../source/images";
 import './login.scss'
+import { useUserStore } from "../../store/user-store";
 function Login() {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const navigate = useNavigate()
+    const {login,user} = useUserStore()
     const handleSubmit = async()=>{
         try{
             const {data} = await axios.post('http://localhost:5000/auth/login',{
@@ -18,7 +20,10 @@ function Login() {
                 password
             })
             if(data.status === 200){
+                delete data.status
+                login(data)
                 navigate('/')
+                
             }
             else {
                 toast.error(data.message, toastOption)

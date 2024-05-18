@@ -11,17 +11,21 @@ export class SearchService {
     ){
     }
     get(searchDTO: SearchDTO){
+        let parseDate = null
         // Preprocessing
         let filterData = Object.fromEntries(Object.entries(searchDTO).filter(([key, value]) => value !== undefined && value !==''))
         
         if(filterData['date']){
-            const parseDate = parse(filterData['date'], SearchService.DateFormat, new Date())
+            parseDate = parse(filterData['date'], SearchService.DateFormat, new Date())
             filterData = {...filterData,date: parseDate}
             console.log(parseDate);
             
         }
         console.log(filterData);
-        
+        if (!parseDate || isNaN(parseDate.getTime())) {
+            // Trả về thông báo nếu ngày không hợp lệ
+            return [];
+        }
         const vehicles = this.prismaService.vehicle_Availabel.findMany({
             select:{
                 id: true,
@@ -33,10 +37,16 @@ export class SearchService {
                 departure_location: true,
                 destination: true,
                 TradeId: true,
-            }
+            },
+            where: {
+                ...filterData
+
+            },
+            
         })
-        
         return vehicles
+       }
         
-    }
+        
+    
 }

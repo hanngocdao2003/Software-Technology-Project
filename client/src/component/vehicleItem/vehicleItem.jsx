@@ -18,7 +18,7 @@ function VehicleItem({key,vehicle}) {
                     <div className="type-and-price w-40 ml-5">
                         <div className="type">
                             <p className="mb-3 text-sm font-bold text-center">Giường</p>
-                            <h4 className="price text-lg font-bold text-center">500000 VND</h4>
+                            <h4 className="price text-lg font-bold text-center">{vehicle.price} VND</h4>
                         </div>
                     </div>
                 </div>
