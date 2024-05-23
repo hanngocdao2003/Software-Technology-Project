@@ -107,7 +107,7 @@ export class TicketService {
     async byTicket(buyDTO: BuyDTO) {
         const arr = buyDTO.chair.slice(1, -1).split(',').map(item => item.trim());
         console.log(arr);
-        const check = await this.checkTicket({chair:  buyDTO.chair ,idVehicle:  buyDTO.idVehicle.toString()})
+        const check = await this.checkTicket({chair:  buyDTO.chair ,idVehicle:  (+buyDTO.idVehicle).toString()})
         if(check.status !==200){
             return check;
         }

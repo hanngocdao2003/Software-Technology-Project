@@ -4,8 +4,10 @@ import './header.scss'
 import { useState } from 'react';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
+import { useUserStore } from '../../store/user-store';
 function Header() {
-    const [currentUser, setCurrentUser]= useState(undefined)
+    // const [currentUser, setCurrentUser]= useState(undefined)
+    const {user} = useUserStore()
     const menu = [
         {
             to: '/',
@@ -40,7 +42,7 @@ function Header() {
                         <FontAwesomeIcon icon={faUser} />
                     </div>
                     <div className="username">
-                        {currentUser === undefined ? <Link to={'/login'}>Đăng nhập/ Đăng kí</Link> : currentUser}
+                        {user === null ? <Link to={'/login'}>Đăng nhập/ Đăng kí</Link> : user.email}
                     </div>
                 </div>
             </div>

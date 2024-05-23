@@ -13,8 +13,8 @@ function InformationVehicle({ vehicle, nameChairPick, ticketCount = 0, className
     const [isShowPaypal, setIsShowPayPal] = useState(false);
     const { setAmount, setDescription } = usePayTicket();
     useEffect(() => {
-        setAmount(amount);
-        setDescription(nameChairPick.toString());
+        setAmount(amount,vehicle.id);
+        setDescription(nameChairPick.toString(), vehicle.id);
     }, [amount]);
     return (
         <div className={`trip-information w-3/4 ${classNames} bg-white px-4 py-6 rounded-xl`}>

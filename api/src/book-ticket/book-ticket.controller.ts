@@ -16,6 +16,8 @@ export class BookTicketController {
     @Post('buy')
     @UsePipes(BuyDTO)
     byTicket(@Body() buyDTO:BuyDTO){
+        console.log(buyDTO);
+        
         return this.bookTicketService.buyTicket(buyDTO)
     
     }
