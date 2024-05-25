@@ -158,21 +158,37 @@ export class TicketService {
                         email: true
                     },
                     where:{
-                        id: buyDTO.idUser
+                        id: +buyDTO.idUser
                     }
                 })
                 const email = await user.email
-                // 
-                // const dto: SendEmailDto = {
-                //     email,
-                //     numChair: arr.length,
-                //     nameChair: buyDTO.chair,
-                    
-                // }
-                if(updatedCTTicket && updatedTicket){
-                    // await this.mailService.sendMail(dto)
-                    return {status: 200, msg:'Thành công'}
+                // Lấy chuyến xe
+                const vehicle = await this.prismaService.vehicle_Availabel.findUnique({
+                    where: {
+                        id: +buyDTO.idVehicle
+                    }
+                })
+                const dto: SendEmailDto = {
+                    email,
+                    numChair: arr.length,
+                    nameChair: buyDTO.chair,
+                    price: arr.length * vehicle.price,
+                    trip: `${vehicle.departure_location} -> ${vehicle.destination}`,
+                    date: `${vehicle.time} -> ${vehicle.timeIntend}`
                 }
+                try {
+                    if (updatedCTTicket && updatedTicket) {      
+                        await this.mailService.sendMail(dto);
+                        return { status: 200, msg: 'Thành công' };
+                    } else {
+                        throw new Error('Không thể cập nhật vé hoặc vé chuyến đi');
+                    }
+                } catch (error) {
+                    // Xử lý lỗi ở đây
+                    console.error('Lỗi khi gửi email hoặc cập nhật dữ liệu:', error);
+                    throw new Error('Xảy ra lỗi khi gửi email hoặc cập nhật dữ liệu');
+                }
+                
             } catch (error) {
                 console.error(`Error updating ticket with chair ${chair}: ${error}`);
             }

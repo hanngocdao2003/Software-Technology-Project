@@ -6,4 +6,5 @@ export class SendEmailDto  {
     nameChair: string
     price: number
     date: string
+    trip: string
 }

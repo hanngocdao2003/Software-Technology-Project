@@ -32,9 +32,10 @@ export class MailService {
                   <li style='margin-bottom: 5px'>Số lượng: ${dto.numChair}</li>
                   <li style='margin-bottom: 5px'>Số ghế: ${dto.nameChair}</li>
                   <li style='margin-bottom: 5px'>Số tiền: ${dto.price} VNĐ</li>
-                  <li style='margin-bottom: 5px'>Ngày đặt: ${dto.date}</li>
+                  <li style='margin-bottom: 5px'>Hành trình: ${dto.trip}</li>
+                  <li style='margin-bottom: 5px'>Thời gian: ${dto.date}</li>
                 </ul>
-        
+                <strong style='margin-bottom: 10px'>Cảm ơn quý khách</strong>
               `
       })
     }
