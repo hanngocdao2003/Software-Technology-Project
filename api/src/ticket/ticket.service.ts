@@ -5,12 +5,16 @@ import { parse } from 'date-fns';
 import { CT_Ticket } from './dto/CT.ticket.dto';
 import { BuyDTO } from 'src/book-ticket/dto/byDTO';
 import { checkDTO } from 'src/book-ticket/dto/checkDTO';
+import { MailService } from 'src/mailer/mailer.service';
+import { SendEmailDto } from 'src/mailer/mail.interface';
 
 @Injectable()
 export class TicketService {
     private static  DateFormat = 'dd-MM-yyyy'
     constructor(
-        private prismaService: PrismaService
+        private prismaService: PrismaService,
+        private mailService: MailService,
+
     ){}
    async add(licensePlate: string,ticketDTO : TicketDTO, ct_Ticket: CT_Ticket){
         const check = await this.prismaService.ticket.findFirst({
@@ -148,7 +152,25 @@ export class TicketService {
                         name_customer : buyDTO.name_customer
                     }
                 })
+                // Lấy email
+                const user = await this.prismaService.user.findUnique({
+                    select: {
+                        email: true
+                    },
+                    where:{
+                        id: buyDTO.idUser
+                    }
+                })
+                const email = await user.email
+                // 
+                // const dto: SendEmailDto = {
+                //     email,
+                //     numChair: arr.length,
+                //     nameChair: buyDTO.chair,
+                    
+                // }
                 if(updatedCTTicket && updatedTicket){
+                    // await this.mailService.sendMail(dto)
                     return {status: 200, msg:'Thành công'}
                 }
             } catch (error) {
