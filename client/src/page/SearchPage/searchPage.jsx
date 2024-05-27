@@ -35,13 +35,24 @@ function SearchPage() {
         searchResults(to,dest,date,ticketCount)
 
     },[to,dest,date,ticketCount]) 
+    useEffect(()=>{
+        console.log(document.documentElement.scrollHeight);
+        console.log(window.innerHeight);
+    })
+    const handleScroll = ()=>{
+        let position = document.documentElement.scrollHeight - window.innerHeight
+        window.scrollTo({
+            top: position,
+            behavior: 'smooth'
+        })
+    }
     return ( 
         <div id="search" className="w-full">
             <Header/>
             <section className="over-view flex justify-center items-center flex-col gap-10">
                 <div className="detail text-center">
                     <h1 className="text-white font-bold text-3xl">{to} - {dest} ({vehicles?.length}) </h1>
-                    <button className="mt-8 btn-more px-8 py-2 text-white text-sm hover:bg-slate-600 transition-all"><Link className="h-full w-full block" to={'#detail-bus'}>Xem thêm</Link></button>
+                    <button className="mt-8 btn-more px-8 py-2 text-white text-sm hover:bg-slate-600 transition-all" onClick={handleScroll}><Link className="h-full w-full block" >Xem thêm</Link></button>
                 </div>
                 <div className="sort text-white flex rounded-2xl px-6 py-10 lg:w-5/6 items-center flex-wrap">
                     <label htmlFor="" className="text-lg lg:w-2/12 md:w-11/12 text-center md:mb-4">Bộ lọc</label>

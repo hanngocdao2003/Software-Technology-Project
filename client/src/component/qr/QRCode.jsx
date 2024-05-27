@@ -15,73 +15,86 @@ import { toastOption } from '../../utils/toast';
 function QR({ className }) {
     const [qr, setQR] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
+    const [success, setSuccess] = useState(false);
     const { amount, description } = usePayTicket();
-    const {phoneNumber , name, email} = useInformationStore()
-    const { user, accessToken} = useUserStore();
-    console.log(accessToken.accessToken);
+    const { phoneNumber, name, email } = useInformationStore();
+    const { user, accessToken } = useUserStore();
+
     const { id } = useParams();
     const navigate = useNavigate();
     const intervalRef = useRef(null);
+
     const loadQRCode = async () => {
         setIsLoading(true);
-        const QR =
-            await `https://img.vietqr.io/image/${Card.BANK_ID}-${Card.ACCOUNT_NO}-${Card.TEMPLATE}.png?amount=${amount}&addInfo=Thanh toan ve xe ${description}id=${id}idUser=${user.id}`;
-        setQR(QR);
-        setIsLoading(false);
-    };
-    const byTicket = async()=>{
         try {
-            const {data} = await axios.post('http://localhost:5000/book-ticket/buy', {
-            idVehicle: +id,
-            idUser: user.id,
-            chair: `[${description}]`,
-            phone_customer: phoneNumber,
-            name_customer: name,
-            email_customer: email
-        },{
-            headers: {
-                'authorization': `Bearer ${accessToken.accessToken}`
-            }
-        })
-        console.log(data);
+            const QR = `https://img.vietqr.io/image/${Card.BANK_ID}-${Card.ACCOUNT_NO}-${Card.TEMPLATE}.png?amount=${amount}&addInfo=Thanh toan ve xe ${description}id=${id}idUser=${user.id}`;
+            setQR(QR);
         } catch (error) {
-            console.log(error);
-        }
-    }
-    const handleCheckPaid = async () => {
-        const { data } = await axios.get(
-            `https://script.googleusercontent.com/macros/echo?user_content_key=VdvILEjkR7prGau60nO6JywHzOdRjL-e7y6Ls7Towy1QCWFy1Z1CQAbuyNFFIh6gYu_5VLINXfignFzfMkyh6ZSlYZaXQfRXm5_BxDlH2jW0nuo2oDemN9CCS2h10ox_1xSncGQajx_ryfhECjZEnJXUcFNWVk6SD_eNLQSqM2jGqw2ZNFhvoOCBoE1DTGpRJg9N06TZDERdlXyQwVs0Q9olhK1kW-q9i8z1Bes2eXal1G61OByJXNz9Jw9Md8uu&lib=MOqSGi395BE9CLYWj1QBkvqhHvNT7C3Ew`,
-        )
-        const lastPaid = data.data[data.data.length - 1];
-        console.log(lastPaid);
-        if (lastPaid['Mô tả'].includes(`${description.replace(/,\s*/g, '')}id${id}idUser${user.id}`)) {
-            clearInterval(intervalRef.current); // Clear interval
-             byTicket()
+            console.error(error);
+        } finally {
+            setIsLoading(false);
         }
     };
-    setInterval(() => {
-        handleCheckPaid();
-    }, 5000);
+
+    const byTicket = async () => {
+        try {
+            const { data } = await axios.post('http://localhost:5000/book-ticket/buy', {
+                idVehicle: +id,
+                idUser: user.id,
+                chair: `[${description}]`,
+                phone_customer: phoneNumber,
+                name_customer: name,
+                email_customer: email
+            }, {
+                headers: {
+                    'authorization': `Bearer ${accessToken.accessToken}`
+                }
+            });
+            console.log(data);
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    const handleCheckPaid = async () => {
+        try {
+            const { data } = await axios.get(
+                `https://script.googleusercontent.com/macros/echo?user_content_key=VdvILEjkR7prGau60nO6JywHzOdRjL-e7y6Ls7Towy1QCWFy1Z1CQAbuyNFFIh6gYu_5VLINXfignFzfMkyh6ZSlYZaXQfRXm5_BxDlH2jW0nuo2oDemN9CCS2h10ox_1xSncGQajx_ryfhECjZEnJXUcFNWVk6SD_eNLQSqM2jGqw2ZNFhvoOCBoE1DTGpRJg9N06TZDERdlXyQwVs0Q9olhK1kW-q9i8z1Bes2eXal1G61OByJXNz9Jw9Md8uu&lib=MOqSGi395BE9CLYWj1QBkvqhHvNT7C3Ew`,
+            );
+            const lastPaid = data.data[data.data.length - 1];
+            console.log(lastPaid);
+            console.log(description.replace(/,\s*/g, ''));
+            if (lastPaid['Mô tả'].includes(`${description.replace(/,\s*/g, '')}id${id}idUser${user.id}`)) {
+                await byTicket();
+                setSuccess(true);
+                alert('Thanh toán thành công');
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
     useEffect(() => {
         loadQRCode();
-    }, []);
-    useEffect(()=>{
         intervalRef.current = setInterval(() => {
-            handleCheckPaid();
-          }, 5000);
-      
-          return () => {
-            // Clear interval on component unmount
-            clearInterval(intervalRef.current);
-          };
-    },[])
+            if (!success) {
+                handleCheckPaid();
+                console.log(success);
+            } else {
+                clearInterval(intervalRef.current);
+            }
+        }, 5000);
+
+        return () => clearInterval(intervalRef.current);
+    }, [success]);
+
     return (
         <Fragment>
             {isLoading ? (
                 <Loading />
             ) : (
                 <div className={className}>
-                    <img className="w-full h-full" src={qr} alt="" />
+                    <img className="w-full h-full" src={qr} alt="QR Code" />
                 </div>
             )}
         </Fragment>
