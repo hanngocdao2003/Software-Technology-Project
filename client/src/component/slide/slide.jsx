@@ -28,22 +28,36 @@ function Slide({children}) {
         },
     ]
     const [bus, setBus] = useState(0)
-    useEffect(()=>{
-        setTimeout(()=>{
-            if(bus >= slides.length-1){
-                setBus(0)
-            }
-            setBus((prev)=> prev+1)
-        },2000)
-    },[bus])
+    const [nextBus, setNextBus] = useState(0);
+    const [loaded, setLoaded] = useState(true);
+    // double buffering : kĩ thuât
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            const nextIndex = bus >= slides.length - 1 ? 0 : bus + 1;
+            setNextBus(nextIndex);
+            setLoaded(false);
+        }, 2000);
+
+        return () => clearTimeout(timer);
+    }, [bus, slides.length]);
+    useEffect(() => {
+        if (!loaded) {
+            const img = new Image();
+            img.src = slides[nextBus].image;
+            img.onload = () => {
+                setBus(nextBus);
+                setLoaded(true);
+            };
+        }
+    }, [nextBus, loaded, slides]);
     return ( 
         <div id="slide" style={{backgroundImage: `url(${slides[bus]?.image})`}} className={`w-full text-white flex flex-col items-center`}>
             <div className="main-caption mt-20 ">
                 <h2 className="text-2xl text-center font-bold">Chuyến xe có tần số hoạt động cao</h2>
                <div className="to-dest flex gap-11 my-6 items-center justify-center text-3xl font-extrabold">
-                    <h1>{slides[bus]?.to}</h1>
+                    <h1 className="w-80 text-center">{slides[bus]?.to}</h1>
                     <FontAwesomeIcon icon={faArrowsLeftRight} />
-                    <h1>{slides[bus]?.des}</h1>
+                    <h1 className="w-80 text-center">{slides[bus]?.des}</h1>
                </div>
                 <div className="text-center mt-4">
                     <Link className="link mt-9" to={`to=${slides[bus]?.to}&dest=${slides[bus]?.des}`}>Đặt vé ngay</Link>

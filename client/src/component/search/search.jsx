@@ -42,28 +42,28 @@ function Search() {
         }
     })
     const checkValueValidate = ()=>{
-        return !(dest.length ===0 || to.length===0);
+        return !(dest.length === 0 || to.length===0);
     }
-    console.log(historySearch);
     const handleSearch = ()=>{
         if(checkValueValidate()){
+            if(historySearch === null){
+                localStorage.setItem('history-search',JSON.stringify([{to ,dest,date}]))
+            }
+            else if(historySearch.length >5){
+                historySearch.shift()
+                localStorage.setItem('history-search',JSON.stringify(historySearch))
+            }
+            else{
+                historySearch.push({to,dest ,date})
+                localStorage.setItem('history-search',JSON.stringify(historySearch))
+            }
             navigate(`/search?to=${to}&dest=${dest}&date=${date}&ticket=${ticketCount}`)
         }
-        if(historySearch === null){
-            localStorage.setItem('history-search',JSON.stringify([{to ,dest,date}]))
-        }
-        else if(historySearch.length >5){
-            historySearch.shift()
-            localStorage.setItem('history-search',JSON.stringify(historySearch))
-        }
-        else{
-            historySearch.push({to,dest ,date})
-            localStorage.setItem('history-search',JSON.stringify(historySearch))
-        }
+       
 
     }
     return ( 
-        <div className="search bg-white px-6 pt-2 pb-4 mt-14 w-full">
+        <div className="search bg-white px-6 pt-2 pb-6 mt-14 w-full">
             <div className="instruct flex justify-end items-center">
                 <p>
                     <Link to='/instruct-ticket'>Hướng dẫn mua vé</Link>
@@ -103,6 +103,7 @@ function Search() {
                                     return <li className="px-1 py-2 cursor-pointer hover:bg-slate-300"  key={index} onClick={()=>{
                                         setDest(province.name)
                                         setShowDest(false)
+                                        console.log(showDest);
                                     }} >{province.name}</li>
                                 })}
                             </ul>
@@ -150,7 +151,7 @@ function Search() {
                     }
                 </div>
             </div>
-            <button className="search-btn text-center px-1 py-2 cursor-pointer" onClick={handleSearch}>Tìm kiếm</button>
+            <button className="search-btn text-center mt-2 px-1 py-2 cursor-pointer" onClick={handleSearch}>Tìm kiếm</button>
         </div>
      );
 }
