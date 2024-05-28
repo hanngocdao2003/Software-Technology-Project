@@ -10,6 +10,7 @@ import './bookVehicle.scss';
 import TicketItem from '../../component/ticket/ticket';
 import InformationUser from '../../component/informationUser/InformationUser';
 import InformationVehicle from '../../component/informationVehicle/InformationVehicle';
+import dayjs from 'dayjs';
 
 // CONSTANT
 const formInformation = [
@@ -44,6 +45,7 @@ function BookVehicle() {
     useEffect(() => {
         setDate(() => new Date(vehicle.date));
     }, []);
+
     useEffect(() => {
         if (date) {
             const formatted = `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`;
@@ -58,6 +60,18 @@ function BookVehicle() {
     useEffect(() => {
         loadData();
     }, []);
+    useEffect(() => {
+        // Kiểm tra và xử lý ngày khi vehicle.date thay đổi
+        if (vehicle.date) {
+            const parsedDate = dayjs(vehicle.date);
+            if (parsedDate.isValid()) {
+                setDate(parsedDate.toDate());
+            } else {
+                console.error('Invalid date format:', vehicle.date);
+                setDate(null);
+            }
+        }
+    }, [vehicle.date]);
     // console.log(vehicle);
     const handleIncrementTicket = (item) => {
         if (ticketCount >= 5) {

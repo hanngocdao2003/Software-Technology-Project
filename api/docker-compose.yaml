@@ -1,10 +1,11 @@
-version: '1.0'
+# version: '1.0'
 services:
   project-soft:
     image: postgres:15.0
     container_name: project-soft
     ports:
-     - "5434:5432"
+    #  - "5434:5432"
+       - "5432:5432"
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: Abc123456789

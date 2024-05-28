@@ -19,9 +19,12 @@ export class CustomerMiddleware  implements NestMiddleware {
       const user = await this.jwtService.verifyAsync(token ,{
         secret: this.configService.get('JWT_SECRET')
       })
+    
+
       if(user){
         return next()
-      }else{
+      }
+      else{
         return res.status(400).json({status: 403 , msg : 'Bạn không có quyền truy cập'})
       }
     } catch (error) {
