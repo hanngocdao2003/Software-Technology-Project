@@ -1,0 +1,11 @@
+#search .over-view {
+  height: calc(100vh - var(--height-header));
+  background-image: url("../../source/banner-01.jpg");
+}
+#search .over-view .detail .btn-more {
+  border-radius: 20px;
+  border: 1px solid var(--primary-color);
+}
+#search .sort {
+  background-color: var(--primary-color);
+}/*# sourceMappingURL=searchpage.css.map */

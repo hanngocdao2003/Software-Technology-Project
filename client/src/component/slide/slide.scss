@@ -1,0 +1,11 @@
+#slide{
+    height: calc(100vh - var(--height-header)); 
+    .main-caption{
+        .link{
+            border-radius: 20px;
+            padding: 5px 10px;
+            border:  1px solid var(--primary-color);
+            
+        }
+    }
+}
