@@ -194,6 +194,19 @@ export class TicketService {
             }
         }
     }
+    async getMyTicket(idUser: string){
+        const tickets = this.prismaService.ticket.findMany({
+            where: {
+                userId: +idUser
+            },
+            include:{
+                vehicle: true
+            }
+        })
+        console.log(tickets);
+        
+        return tickets
+    }
     
     
 }

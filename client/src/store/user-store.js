@@ -1,13 +1,16 @@
 import { create } from 'zustand';
 
 export const useUserStore = create((set) => ({
-    user: null,
-    accessToken: '',
+    user: JSON.parse(sessionStorage.getItem('user')).user,
+    accessToken: JSON.parse(sessionStorage.getItem('user')).accessToken.accessToken,
     login(userLogin) {
-        set((state) => ({
-            user: userLogin.user,
-            accessToken: userLogin.accessToken,
-        }));
+        const userData = JSON.parse(sessionStorage.getItem('user'));
+        if (userData) {
+            set(() => ({
+                user: userData.user,
+                accessToken: userData.accessToken,
+            }));
+        }
     },
     logout() {
         set(() => ({ user: null, accessToken: '' }));

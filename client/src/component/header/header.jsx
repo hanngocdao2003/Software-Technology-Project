@@ -1,13 +1,13 @@
 import {images} from '../../source/images';
-import {Link} from 'react-router-dom'
+import {Link, useNavigate} from 'react-router-dom'
 import './header.scss'
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 import { useUserStore } from '../../store/user-store';
 function Header() {
-    // const [currentUser, setCurrentUser]= useState(undefined)
     const {user} = useUserStore()
+    console.log(user);
     const menu = [
         {
             to: '/',
@@ -22,9 +22,10 @@ function Header() {
             title: 'Tin tức'
         }
     ]
+   const navigate = useNavigate()
     return ( 
         <div id="header" className=" w-full flex justify-between items-center px-5 py-3 text-lg">
-            <div className="logo">
+            <div className="logo" onClick={()=>{navigate('/')}}>
                 <img src={images.logo} alt="Logo" />
             </div>
             <div className="right flex">
@@ -42,7 +43,7 @@ function Header() {
                         <FontAwesomeIcon icon={faUser} />
                     </div>
                     <div className="username">
-                        {user === null ? <Link to={'/login'}>Đăng nhập/ Đăng kí</Link> : user.email}
+                        {user === undefined ? <Link to={'/login'}>Đăng nhập/ Đăng kí</Link> : user?.email}
                     </div>
                 </div>
             </div>

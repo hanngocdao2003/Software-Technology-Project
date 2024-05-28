@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { DataContext } from '../../page/BookVehicle/BookVehicle';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -14,7 +14,11 @@ function ButtonCheckout({ onClick }) {
     // const data = useContext(DataContext)
     const { email, phoneNumber, name } = useInformationStore();
     const {description,idVehicle} = usePayTicket()
+    const [currentUser , setCurrentUser] = useState(undefined)
     const { user } = useUserStore();
+    useEffect(()=>{
+        setCurrentUser(JSON.parse(sessionStorage.getItem('user')).user);
+    },[])
     const navigate = useNavigate();
     const checkInvalidate = () => {
         if ((email === ' ') & (name === '') & (phoneNumber === 0)) {
@@ -47,17 +51,16 @@ function ButtonCheckout({ onClick }) {
         return data.status === 200;
     }
     const handleCheckout = async () => {
-        console.log( await checkTicket());
-        if(! (await checkTicket())){
-            toast.warning('Vé không tồn tại hoặc đã mua', toastOption);
-            return;
-        }
-        if(user === null){
-            navigate('/login')
+        if(!(await checkTicket())){
+            toast.warning('Vé đã được mua', toastOption);
             return;
         }
         if (checkInvalidate()) {
             onClick((prev) => !prev);
+            return;
+        }
+        if(currentUser === undefined){
+            navigate('/login')
             return;
         }
 

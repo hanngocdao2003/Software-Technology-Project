@@ -18,12 +18,11 @@ function QR({ className }) {
     const [success, setSuccess] = useState(false);
     const { amount, description } = usePayTicket();
     const { phoneNumber, name, email } = useInformationStore();
-    const { user, accessToken } = useUserStore();
-
+    const { user,accessToken } = useUserStore();
     const { id } = useParams();
     const navigate = useNavigate();
     const intervalRef = useRef(null);
-
+    console.log(accessToken);
     const loadQRCode = async () => {
         setIsLoading(true);
         try {
@@ -40,14 +39,14 @@ function QR({ className }) {
         try {
             const { data } = await axios.post('http://localhost:5000/book-ticket/buy', {
                 idVehicle: +id,
-                idUser: user.id,
+                idUser:user.id,
                 chair: `[${description}]`,
                 phone_customer: phoneNumber,
                 name_customer: name,
                 email_customer: email
             }, {
                 headers: {
-                    'authorization': `Bearer ${accessToken.accessToken}`
+                    'authorization': `Bearer ${accessToken}`
                 }
             });
             console.log(data);
@@ -63,11 +62,12 @@ function QR({ className }) {
             );
             const lastPaid = data.data[data.data.length - 1];
             console.log(lastPaid);
-            console.log(description.replace(/,\s*/g, ''));
+            console.log();
             if (lastPaid['Mô tả'].includes(`${description.replace(/,\s*/g, '')}id${id}idUser${user.id}`)) {
                 await byTicket();
                 setSuccess(true);
-                alert('Thanh toán thành công');
+                navigate('/my-ticket')
+
             }
         } catch (error) {
             console.error(error);

@@ -11,4 +11,9 @@ export class TicketController {
     update(@Body() ticketDTO  : TicketDTO, @Query() ticketId: any){
         return this.ticketService.update(ticketDTO,ticketId)
     }
+    @Post('my-ticket')
+    getMyTicket(@Body('idUser') idUser: string){
+        console.log(idUser);
+        return this.ticketService.getMyTicket(idUser)
+    }
 }

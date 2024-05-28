@@ -83,7 +83,7 @@ export class VehicleAvailableService {
                     userId: 0,
                     vehicleId : vehicle.id
                 }
-                this.ticketService.add(vehicle.licensePlate,ticketDTO, {departure_time:insertDTO.time,departure_location: insertDTO.departure_location, destination: insertDTO.destination })
+               await this.ticketService.add(vehicle.licensePlate,ticketDTO, {departure_time:insertDTO.time,departure_location: insertDTO.departure_location, destination: insertDTO.destination })
             }        
         }
         else{
@@ -109,7 +109,7 @@ export class VehicleAvailableService {
                     vehicleId : vehicle.id
                 }
             }
-            this.ticketService.add(vehicle.licensePlate,ticketDTO, {departure_time:insertDTO.time,departure_location: insertDTO.departure_location, destination: insertDTO.destination })
+            await this.ticketService.add(vehicle.licensePlate,ticketDTO, {departure_time:insertDTO.time,departure_location: insertDTO.departure_location, destination: insertDTO.destination })
         }
         }
         return vehicle
