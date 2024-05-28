@@ -8,7 +8,6 @@ import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MailerModule} from '@nestjs-modules/mailer';
 import { join } from 'path';
-import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter'
 import { TradeModule } from './trade/trade.module';
 import { UserModule } from './user/user.module';
 import { VehicleModule } from './vehicle/vehicle.module';
@@ -18,11 +17,9 @@ import { BookTicketModule } from './book-ticket/book-ticket.module';
 import { VehicleAvailableModule } from './vehicle-available/vehicle-available.module';
 
 @Module({
-  imports: [ProvinceModule, 
     AuthModule,
     JwtModule.register({}),
     ConfigModule.forRoot({
-      isGlobal: true
     }),
     TradeModule,
     UserModule,

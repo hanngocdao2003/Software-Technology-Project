@@ -5,7 +5,6 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   // middleware
-  app.enableCors(
     // {
     //   origin: ['http://localhost:3000','http://localhost:3001'],
     //   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
@@ -14,10 +13,6 @@ async function bootstrap() {
     //   credentials: true, // Cho phép gửi cookie qua CORS
     //   allowedHeaders: 'Origin,X-Requested-With,Content-Type,Accept,Authorization',
     // }
-  )
 
-  await app.listen(5000);
-  console.log("Running...");
-  
 }
 bootstrap();
