@@ -6,8 +6,8 @@ services:
     ports:
      - "5434:5432"
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: Abc123456789
+      POSTGRES_USER: 21130584@st.hcmuaf.edu.vn
+      POSTGRES_PASSWORD: 0947863260Chun
       POSTGRES_DB: project-soft
     networks:
       - soft-networks
