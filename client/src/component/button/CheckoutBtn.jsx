@@ -14,11 +14,7 @@ function ButtonCheckout({ onClick }) {
     // const data = useContext(DataContext)
     const { email, phoneNumber, name } = useInformationStore();
     const {description,idVehicle} = usePayTicket()
-    const [currentUser , setCurrentUser] = useState(undefined)
     const { user } = useUserStore();
-    useEffect(()=>{
-        setCurrentUser(JSON.parse(sessionStorage.getItem('user')).user);
-    },[])
     const navigate = useNavigate();
     const checkInvalidate = () => {
         if ((email === ' ') & (name === '') & (phoneNumber === 0)) {
@@ -59,7 +55,7 @@ function ButtonCheckout({ onClick }) {
             onClick((prev) => !prev);
             return;
         }
-        if(currentUser === undefined){
+        if(user === undefined){
             navigate('/login')
             return;
         }

@@ -27,6 +27,7 @@ function QR({ className }) {
         setIsLoading(true);
         try {
             const QR = `https://img.vietqr.io/image/${Card.BANK_ID}-${Card.ACCOUNT_NO}-${Card.TEMPLATE}.png?amount=${amount}&addInfo=Thanh toan ve xe ${description}id=${id}idUser=${user.id}`;
+            console.log(QR);
             setQR(QR);
         } catch (error) {
             console.error(error);
@@ -46,7 +47,7 @@ function QR({ className }) {
                 email_customer: email
             }, {
                 headers: {
-                    'authorization': `Bearer ${accessToken}`
+                    authorization: `Bearer ${accessToken}`
                 }
             });
             console.log(data);
@@ -61,8 +62,6 @@ function QR({ className }) {
                 `https://script.googleusercontent.com/macros/echo?user_content_key=VdvILEjkR7prGau60nO6JywHzOdRjL-e7y6Ls7Towy1QCWFy1Z1CQAbuyNFFIh6gYu_5VLINXfignFzfMkyh6ZSlYZaXQfRXm5_BxDlH2jW0nuo2oDemN9CCS2h10ox_1xSncGQajx_ryfhECjZEnJXUcFNWVk6SD_eNLQSqM2jGqw2ZNFhvoOCBoE1DTGpRJg9N06TZDERdlXyQwVs0Q9olhK1kW-q9i8z1Bes2eXal1G61OByJXNz9Jw9Md8uu&lib=MOqSGi395BE9CLYWj1QBkvqhHvNT7C3Ew`,
             );
             const lastPaid = data.data[data.data.length - 1];
-            console.log(lastPaid);
-            console.log();
             if (lastPaid['Mô tả'].includes(`${description.replace(/,\s*/g, '')}id${id}idUser${user.id}`)) {
                 await byTicket();
                 setSuccess(true);

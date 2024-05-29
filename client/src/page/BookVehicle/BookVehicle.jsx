@@ -37,22 +37,17 @@ function BookVehicle() {
     const [isLoading, setLoading] = useState(true);
     const [ticketCount, setTicketCount] = useState(0);
     const [nameChairPick, setNameChairPick] = useState([]);
-    const [data, setData] = useState(null);
+    const [data, setData] = useState('');
     const { id } = useParams();
     const [date, setDate] = useState(null);
     const [formattedDate, setFormattedDate] = useState('');
-    useEffect(() => {
-        setDate(() => new Date(vehicle.date));
-    }, []);
-    useEffect(() => {
-        if (date) {
-            const formatted = `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`;
-            setFormattedDate(formatted);
-        }
-    }, [date]);
+
     const loadData = async () => {
         const { data } = await axios.get(`http://localhost:5000/book-ticket/${id}`);
-        setVehicle(data);
+        await setVehicle(data);
+        await setDate(new Date(vehicle.date));
+        const formatted = await `${date?.getDate()}/${date?.getMonth() + 1}/${date?.getFullYear()}`;
+        setFormattedDate(formatted);
         setLoading(false);
     };
     useEffect(() => {

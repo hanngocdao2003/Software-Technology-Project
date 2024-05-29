@@ -21,8 +21,8 @@ function Login() {
             })
             if(data.status === 200){
                 delete data.status
-                login(data)
                 sessionStorage.setItem('user', JSON.stringify(data))
+                login(data)
                 navigate('/')
             }
             else {
