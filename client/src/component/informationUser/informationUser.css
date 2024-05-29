@@ -1,0 +1,8 @@
+.information-user {
+  background: #f3f3f5;
+}
+.information-user .form-item .input-form {
+  border: 1px solid var(--border-color);
+  border-radius: 5px;
+  outline: none;
+}/*# sourceMappingURL=informationUser.css.map */
