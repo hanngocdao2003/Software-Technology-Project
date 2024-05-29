@@ -1,14 +1,70 @@
-.vehicle-item{
-    .head-vehicle{
-        .type-and-price{
-            .price{
-                color: var(--orangen);
+.vehicle-item {
+    .head-vehicle {
+        .schedule {
+            .time-and-from, .time-and-dest {
+                text-align: center;
+                .time {
+                    font-weight: bold;
+                    font-size: 1.25rem; /* equivalent to text-xl */
+                }
+                .from {
+                    color: #6b7280; /* equivalent to text-gray-600 */
+                }
+            }
+            .item-cent {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin: 0 1rem;
+                img {
+                    margin: 0 0.5rem;
+                }
+                .line-horizontal {
+                    width: 50px;
+                    height: 2px;
+                    background-color: #d1d5db; /* light grey line */
+                    margin: 0 0.5rem;
+                }
+                span {
+                    margin: 0 0.5rem;
+                }
+            }
+        }
+        .type-and-price {
+            .type {
+                text-align: center;
+                .price {
+                    font-weight: bold;
+                    font-size: 1.125rem; /* equivalent to text-lg */
+                }
             }
         }
     }
-    .footer-vehicle{
-        .btn{
-            background-color: var(--primary-color);
+    .body-vehicle {
+        border-top: 1px solid #d1d5db; /* Light grey line */
+        margin-top: 1rem;
+        padding-top: 1rem;
+        .menu-options {
+            display: flex;
+            gap: 1rem; /* equivalent to space-x-4 */
+            .option {
+                cursor: pointer;
+                color: #374151; /* equivalent to text-gray-700 */
+                &:hover {
+                    color: #f97316; /* darker text on hover */
+                }
+            }
+        }
+        .btn-choose-trip {
+            background-color: #f97316; /* Orange color */
+            &:hover {
+                cursor: pointer;
+                background-color: #ea580c; /* Darker orange on hover */
+            }
+            a {
+                color: white;
+                text-decoration: none;
+            }
         }
     }
 }

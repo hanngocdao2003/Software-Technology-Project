@@ -1,0 +1,44 @@
+.search {
+  position: relative;
+  box-shadow: 0px 0px 15px var(--primary-color);
+  border-radius: 30px;
+}
+.search .instruct {
+  color: var(--primary-color);
+}
+.search .main-search {
+  color: var(--text-color);
+}
+.search .main-search .search-label {
+  font-size: 16px;
+  line-height: 1.6;
+}
+.search .main-search .input-search {
+  position: relative;
+  width: 100%;
+  height: 50px;
+  border-radius: 5px;
+  border: 1px solid var(--primary-color);
+}
+.search .main-search .input-search .province {
+  position: absolute;
+  height: 200px;
+  overflow-y: scroll;
+  top: -35px;
+  left: 0;
+  right: 0;
+}
+.search .search-recent .location .location-item {
+  border-radius: 5px;
+  padding: 8px 5px;
+  margin-top: 8px;
+}
+.search .search-btn {
+  position: absolute;
+  content: "";
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: var(--primary-color);
+  border-radius: 20px;
+  padding: 10px 25px;
+}/*# sourceMappingURL=search.css.map */
